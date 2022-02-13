@@ -1,0 +1,22 @@
+version: "3.3"
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    restart: always
+    ports:
+      - 5435:5432
+    environment:
+      - POSTGRES_DB=users
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+    hostname: "172.17.0.2"
+  golang:
+    build: .
+    container_name: crud-mvp
+    restart: always
+    ports:
+      - 8081:8080
+    environment: 
+      - DB_URL=postgres://admin:admin@localhost:5435/users?sslmode=disable
+      - PORT=8080
